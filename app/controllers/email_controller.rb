@@ -1,5 +1,19 @@
 class EmailController < ApplicationController
 	respond_to :json
+
+	def compose
+		@compose = current_user.emails.create(email_params)
+		if @compose.present?
+		render json: {
+			msg: 'Email Successfully created.', 
+			edu_type: edu_type,
+			inst: inst
+			}, status: 'Success'
+		else
+			render_failed(msg: 'Email created failed')
+		end
+	end
+
 	def inbox
 		
 	end
@@ -20,5 +34,10 @@ class EmailController < ApplicationController
 
 	def trash
 		
+	end
+	private
+
+	def email_params
+		params.require(:email).permit(:id, :user_id, :to, :subject, :message, :user_id, :is_active)
 	end
 end
