@@ -1,6 +1,12 @@
 class EmailController < ApplicationController
+	respond_to :json
 	def inbox
 		
+	end
+
+	def users
+		@users = User.all
+		render json: {users: @users}
 	end
 
 	def starred
@@ -8,7 +14,8 @@ class EmailController < ApplicationController
 	end
 
 	def sent_mail
-		@sent_mail = current_user.emails
+		@sent_mail = Email.all
+		render json: {emails: @sent_mail}
 	end
 
 	def trash
