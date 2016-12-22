@@ -8,7 +8,6 @@ class Users::SessionsController < Devise::SessionsController
   def create
     resource = warden.authenticate!(scope: resource_name, recall: "#{controller_path}#failure")
     sign_in(resource_name, resource)
-    # token = current_user.generate_auth_token
     render status: 200,
            json: { success: true,
                    info: 'Logged in',

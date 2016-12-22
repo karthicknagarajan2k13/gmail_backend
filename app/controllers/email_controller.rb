@@ -1,14 +1,14 @@
 class EmailController < ApplicationController
 	respond_to :json
+	before_filter :authenticate_token!
 
 	def compose
 		@compose = current_user.emails.create(email_params)
 		if @compose.present?
 		render json: {
-			msg: 'Email Successfully created.', 
-			edu_type: edu_type,
-			inst: inst
-			}, status: 'Success'
+				status: 'Success',
+				msg: 'Email Successfully created.'
+				}
 		else
 			render_failed(msg: 'Email created failed')
 		end
@@ -28,14 +28,24 @@ class EmailController < ApplicationController
 	end
 
 	def sent_mail
-		@sent_mail = Email.all
+		@sent_mail = @user.emails
 		render json: {emails: @sent_mail}
 	end
 
 	def trash
 		
 	end
+	
 	private
+
+	def authenticate_token!
+		params[:token]
+		@user = User.find_by(token: params[:token])
+		p @user.token
+		unless @user.present?
+			render json: {emails: []}
+		end
+	end
 
 	def email_params
 		params.require(:email).permit(:id, :user_id, :to, :subject, :message, :user_id, :is_active)
