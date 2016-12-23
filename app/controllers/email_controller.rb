@@ -6,11 +6,11 @@ class EmailController < ApplicationController
 		@compose = current_user.emails.create(email_params)
 		if @compose.present?
 		render json: {
-			status: 'Success',
-			msg: 'Email Successfully created.'
+			success: true,
+      info: 'Email Successfully created.'
 		}
 		else
-			render_failed(msg: 'Email created failed')
+			render_failed(info: 'Email created failed')
 		end
 	end
 
