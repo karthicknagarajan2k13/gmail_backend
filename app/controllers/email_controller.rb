@@ -6,16 +6,18 @@ class EmailController < ApplicationController
 		@compose = current_user.emails.create(email_params)
 		if @compose.present?
 		render json: {
-				status: 'Success',
-				msg: 'Email Successfully created.'
-				}
+			status: 'Success',
+			msg: 'Email Successfully created.'
+		}
 		else
 			render_failed(msg: 'Email created failed')
 		end
 	end
 
 	def inbox
-		
+		@user_mail = @user.email
+		@inbox = Email.where(to: @user_mail)
+		render json: {emails: @inbox}
 	end
 
 	def users
@@ -24,7 +26,8 @@ class EmailController < ApplicationController
 	end
 
 	def starred
-		@starred = current_user.emails.where(is_active: true)
+		@starred = @user.emails.where(is_active: true)
+		render json: {emails: @starred}
 	end
 
 	def sent_mail

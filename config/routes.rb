@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'pages#index'
   get 'email/sent_mail'
+  get 'email/inbox'
   get 'email/starred'
   get 'email/users'
   get 'email/compose'
