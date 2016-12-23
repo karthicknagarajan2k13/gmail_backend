@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161221100502) do
+ActiveRecord::Schema.define(version: 20161223123117) do
 
   create_table "emails", force: :cascade do |t|
     t.integer  "user_id"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20161221100502) do
     t.boolean  "is_active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "user_name"
+    t.string   "date"
   end
 
   create_table "users", force: :cascade do |t|
