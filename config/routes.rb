@@ -9,10 +9,12 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'pages#index'
   get 'email/sent_mail'
+  get 'email/sent_mail/:id' => 'email#mail_detail', as: :mail_detail
   get 'email/inbox'
   get 'email/starred'
   get 'email/users'
-  get 'email/compose'
+  post 'email/compose'
+  post 'email/starred_mail'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
