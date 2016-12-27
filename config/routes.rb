@@ -13,8 +13,10 @@ Rails.application.routes.draw do
   get 'email/inbox'
   get 'email/starred'
   get 'email/users'
+  get 'email/trash'
   post 'email/compose'
   post 'email/starred_mail'
+  post 'email/recover_mail'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

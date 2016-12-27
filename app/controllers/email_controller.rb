@@ -3,15 +3,10 @@ class EmailController < ApplicationController
 	before_filter :authenticate_token!
 
 	def compose
-		@compose = current_user.emails.create(email_params)
-		if @compose.present?
+		@compose = @user.emails.create(to: params[:email][:to], subject: params[:email][:subject], message: params[:email][:message], user_name: @user.name)
 		render json: {
-			success: true,
-      info: 'Email Successfully created.'
+			success: true
 		}
-		else
-			render_failed(info: 'Email created failed')
-		end
 	end
 
 	def inbox
@@ -48,20 +43,32 @@ class EmailController < ApplicationController
 
 	def starred_mail
 		@starred_mail = Email.find_by(id: params[:email_id])
-		if @starred_mail.is_active == true
-			@starred_mail.is_active = false
+		if @starred_mail.is_active == false
+			@starred_mail.is_active = true
 			@starred_mail.save
 		else
-			@starred_mail.is_active = true
+			@starred_mail.is_active = false
 			@starred_mail.save
 		end
 		render json: {email: @starred_mail,
-			success: true
-		}
+			success: true,
+			info: 'Email successfully created'}
 	end
 
 	def trash
-		
+		@trash = @user.emails.where(trash: true)
+		render json: {emails: @trash}
+	end
+
+	def recover_mail
+		@recover_mail = Email.find_by(id: params[:email_id])
+		if @recover_mail.trash == true
+			@recover_mail.trash = false
+			@recover_mail.save
+		end
+		render json: {email: @recover_mail,
+			success: true,
+			info: 'Email successfully recovered'}
 	end
 	
 	private

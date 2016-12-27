@@ -5,7 +5,7 @@ class CreateEmails < ActiveRecord::Migration
       t.string :to
       t.string :subject
       t.text :message
-      t.boolean :is_active
+      t.boolean :is_active, default: false
 
       t.timestamps null: false
     end
